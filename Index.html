@@ -1,0 +1,1444 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Irish Tunes Tutor — Apprenez la musique irlandaise</title>
+<style>
+  :root {
+    --bg: #0d0f12;
+    --bg-soft: #14171c;
+    --card: #191d23;
+    --ink: #f2f4f3;
+    --ink-dim: #9aa39e;
+    --green: #169b62;
+    --green-lit: #35c98a;
+    --orange: #ff8833;
+    --line: rgba(255,255,255,0.10);
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--sans);
+    line-height: 1.55; -webkit-font-smoothing: antialiased; }
+
+  /* ---------- Barre supérieure ---------- */
+  .nav { position: sticky; top: 0; z-index: 50; display: flex; align-items: center;
+    justify-content: space-between; padding: 0.9rem 1.6rem;
+    background: rgba(13, 15, 18, 0.85); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line); }
+  .logo { font-weight: 800; letter-spacing: 0.02em; font-size: 1.05rem; }
+  .logo span { color: var(--green-lit); }
+  .nav-right { display: flex; align-items: center; gap: 0.8rem; }
+  .langbar select { background: transparent; color: var(--ink-dim); border: 1px solid var(--line);
+    border-radius: 999px; padding: 0.3rem 0.8rem; cursor: pointer; font-size: 0.85rem;
+    font-family: inherit; appearance: none; -webkit-appearance: none; }
+  .langbar select:hover { color: var(--ink); border-color: var(--ink-dim); }
+  .langbar select:focus { outline: 2px solid var(--green-lit); outline-offset: 1px; }
+  .cta-btn { background: var(--ink); color: #0d0f12; font-weight: 700; border: none;
+    border-radius: 999px; padding: 0.55rem 1.2rem; font-size: 0.9rem; cursor: pointer;
+    text-decoration: none; display: inline-block; transition: transform 0.15s; }
+  .cta-btn:hover { transform: translateY(-1px); }
+
+  /* ---------- Accroche ---------- */
+  .hero { text-align: center; padding: 6rem 1.4rem 4rem; max-width: 60rem; margin: 0 auto; }
+  .hero h1 { font-size: clamp(2.2rem, 6vw, 4.2rem); font-weight: 800;
+    letter-spacing: -0.02em; line-height: 1.08; }
+  .hero h1 em { font-style: normal; color: var(--green-lit); }
+  .hero p { color: var(--ink-dim); font-size: clamp(1rem, 2.4vw, 1.25rem);
+    max-width: 38rem; margin: 1.4rem auto 2.2rem; }
+  .hero .cta-row { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+  .cta-ghost { background: transparent; color: var(--ink); border: 1px solid var(--line);
+    border-radius: 999px; padding: 0.55rem 1.2rem; font-size: 0.9rem; text-decoration: none;
+    display: inline-block; transition: border-color 0.15s; }
+  .cta-ghost:hover { border-color: var(--ink-dim); }
+  .hero-note { margin-top: 1.2rem; font-size: 0.78rem; color: #6b756f; }
+
+  /* ---------- Visuel de l'accroche ---------- */
+  .hero-visual { display: flex; justify-content: center; padding: 1rem 0 5rem; }
+  .phone { width: 330px; border-radius: 38px; background: #05070a; padding: 13px 13px 20px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.07) inset; flex: none; }
+  .phone .notch { width: 92px; height: 16px; border-radius: 999px; background: #05070a;
+    margin: 0 auto 10px; }
+  .screen { height: 600px; border-radius: 26px; overflow: hidden; background: #f2f6f4;
+    position: relative; font-size: 11.5px; color: #1c2833; }
+  .scr-head { background: linear-gradient(120deg, #169b62, #0d7a4a); color: #fff;
+    padding: 10px 15px; font-weight: 700; font-size: 12.5px; letter-spacing: 0.02em;
+    display: flex; justify-content: space-between; align-items: baseline; }
+  .scr-head .offl { font-weight: 400; font-size: 10px; opacity: 0.85; }
+  /* Barre de recherche et onglets, reproduits de l'application. */
+  .scr-search { display: flex; gap: 5px; padding: 8px 10px 4px; background: #f2f6f4; }
+  .srch-field { flex: 1; background: #fff; border: 1px solid #d8ded9; border-radius: 8px;
+    padding: 5px 9px; font-size: 10px; color: #8a958e; min-width: 0;
+    white-space: nowrap; overflow: hidden; }
+  .srch-btn { background: #1c2833; color: #fff; border-radius: 8px; padding: 5px 10px;
+    font-size: 10px; font-weight: 700; flex: none; }
+  .idb { background: #169b62; color: #fff; border-radius: 8px; padding: 5px 10px;
+    font-size: 10px; font-weight: 700; flex: none; white-space: nowrap;
+    transition: opacity 0.2s; }
+  .idb .beta { background: #c0392b; color: #fff; font-size: 8px; border-radius: 4px;
+    padding: 0 3px; margin-left: 3px; font-weight: 800; }
+  .idb.press { opacity: 0.75; }
+  .atabs { display: flex; gap: 4px; padding: 6px 10px 8px; background: #f2f6f4; }
+  .atab { padding: 3px 9px; border-radius: 999px; font-size: 9.5px; color: #5a6b60; flex: none; }
+  .atab.on { background: #e7f4ec; color: #0d7a4a; font-weight: 700; }
+  .scr-stage { position: relative; height: 492px; }
+  .scene { position: absolute; inset: 0; padding: 10px 10px; opacity: 0;
+    transition: opacity 0.35s; pointer-events: none; }
+  .scene.on { opacity: 1; }
+  .mini-card { background: #fff; border-left: 3px solid #169b62; border-radius: 10px;
+    padding: 9px 12px; margin-bottom: 8px; box-shadow: 0 2px 8px rgba(16,42,30,0.09);
+    display: flex; justify-content: space-between; align-items: baseline;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s; }
+  .mini-card.hot { transform: translateX(4px) scale(1.02); border-left-color: #ff8833;
+    box-shadow: 0 6px 16px rgba(16,42,30,0.16); }
+  .mc-sub { color: #8a9a90; font-size: 10px; }
+  .tt { font-weight: 700; font-size: 14px; margin: 4px 0 8px 0; color: #1c2833; }
+  .tt-sub { color: #0d7a4a; font-size: 9.5px; font-weight: 600; margin-left: 4px; }
+  .score { background: #fff; border-radius: 12px; padding: 8px 10px; box-shadow: 0 2px 8px rgba(16,42,30,0.09); }
+  /* Portée SVG fidèle à l'application : 5 lignes, clé de sol,
+     armure, notes à hampes, barres de mesure ; chaque système
+     est une rangée surlignable pendant la lecture. */
+  .staff-line { display: block; width: 100%; border-radius: 8px;
+    margin-bottom: 2px; padding: 0; }
+  /* Partition de l'accroche affichée plus petite, centrée, comme
+   * sur le screen de l'application (environ 88 % de la largeur). */
+  #scScore .staff-line { max-width: 88%; margin-left: auto; margin-right: auto; }
+  /* Surbrillance note à note, comme dans l'application :
+     la note qui joue passe en orange (tête + hampe). */
+  #scScore ellipse.note-on { fill: #ff8833; }
+  #scScore line.st.note-on { stroke: #ff8833; }
+  #v1score ellipse.note-on { fill: #ff8833; }
+  #v1score line.st.note-on { stroke: #ff8833; }
+  .scr-btns { display: flex; gap: 8px; margin-top: 10px; }
+  /* Boutons reproduits de l'application : « Lire le tune » orange,
+     « Apprendre » vert clair, comme dans l'onglet Découvrir. */
+  .pb { display: inline-flex; align-items: center; gap: 5px; background: #ff8833; color: #fff;
+    border: none; border-radius: 999px; padding: 5px 13px; font-size: 10.5px;
+    font-weight: 700; transition: opacity 0.2s, transform 0.2s; }
+  .pb.press { opacity: 0.75; transform: scale(0.96); }
+  .lg { display: inline-flex; align-items: center; background: #35c98a; color: #0d3d27;
+    border: none; border-radius: 999px; padding: 5px 13px; font-size: 10.5px;
+    font-weight: 800; flex: none; }
+  /* Curseur de tempo, comme sous la partition de l'application. */
+  .tempo { display: flex; align-items: center; gap: 7px; margin-top: 10px;
+    font-size: 9.5px; color: #5a6b60; }
+  .tslider { flex: 1; height: 4px; border-radius: 999px; background: #dfe6da; position: relative; }
+  .tknob { position: absolute; left: 52%; top: 50%; transform: translate(-50%, -50%);
+    width: 13px; height: 13px; border-radius: 50%; background: #3b7fbf; border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+
+  /* ---------- Sections fonctionnalités (structure TR) ---------- */
+  .feat { max-width: 72rem; margin: 0 auto; padding: 4.5rem 1.6rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .feat:nth-child(even) { direction: rtl; }
+  .feat:nth-child(even) > * { direction: ltr; }
+  .feat h2 { font-size: clamp(1.6rem, 3.6vw, 2.4rem); font-weight: 800;
+    letter-spacing: -0.01em; line-height: 1.15; margin-bottom: 1.6rem; }
+  /* Badge BETA attaché au titre de la section recherche, comme le
+   * badge du bouton « Identifier un tune » de l'application. */
+  .beta-tag { display: inline-block; vertical-align: middle; margin-left: 0.6rem;
+    background: #169b62; color: #fff; font-size: 0.62rem; font-weight: 800;
+    letter-spacing: 0.06em; border-radius: 5px; padding: 0.18rem 0.45rem;
+    transform: translateY(-0.35rem); }
+  .pt { display: flex; gap: 0.9rem; margin-bottom: 1.3rem; align-items: baseline; }
+  .pt b { font-size: 1rem; font-weight: 700; display: block; margin-bottom: 0.15rem; }
+  .pt p { color: var(--ink-dim); font-size: 0.9rem; }
+  .pt .tick { color: var(--green-lit); font-weight: 800; flex: none; }
+  .feat-note { font-size: 0.75rem; color: #6b756f; margin-top: 1.4rem;
+    padding-top: 1rem; border-top: 1px solid var(--line); }
+  .fvisual { display: flex; justify-content: center; }
+  .fcard { background: var(--card); border: 1px solid var(--line); border-radius: 20px;
+    padding: 1.4rem; width: 100%; max-width: 420px; }
+  .fcard .fcap { font-size: 0.8rem; color: var(--ink-dim); margin-top: 0.8rem;
+    text-align: center; min-height: 1.4em; }
+
+  /* Éléments animés des encarts */
+  /* Écran d'application embarqué dans un encart : fond blanc, comme l'appli. */
+  .appcard { background: #fff; border-radius: 12px; padding: 10px 12px; color: #1c2833; }
+  .v1lines { font-size: 10px; color: #5a6b60; margin-bottom: 6px; }
+  .wave { display: flex; gap: 5px; align-items: center; justify-content: center;
+    height: 74px; margin: 8px 0 14px; }
+  .wave .bar { width: 7px; border-radius: 4px; background: var(--green);
+    transition: height 0.18s ease; }
+  .v2bar { background: #f2f6f4; border-radius: 10px; padding: 8px 9px;
+    display: flex; justify-content: flex-end; margin-bottom: 10px; }
+  .match-card .m-sub { color: #0d7a4a; font-size: 10px; font-weight: 600; margin-top: 1px; }
+  .match-card { background: #fff; border-left: 3px solid #ff8833; border-radius: 10px;
+    padding: 10px 13px; color: #1c2833; opacity: 0; transform: translateY(8px);
+    transition: opacity 0.4s, transform 0.4s; }
+  .match-card.show { opacity: 1; transform: none; }
+  .match-card .m-what { font-weight: 700; font-size: 12.5px; }
+  .match-card .m-conf { color: #0d7a4a; font-size: 10px; font-weight: 700; }
+  .sb-line { background: #f2f6f4; border-left: 3px solid #169b62; border-radius: 5px;
+    padding: 7px 9px; margin-bottom: 6px; font-size: 10px; color: #1c2833;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s; }
+  .sb-line.hot { transform: translateX(4px) scale(1.02); border-left-color: #ff8833;
+    box-shadow: 0 6px 16px rgba(16,42,30,0.16); }
+  .sb-head { display: flex; justify-content: space-between; align-items: baseline; }
+  .sb-count { color: #5a6b60; font-size: 9.5px; font-weight: 600; }
+  .sb-add { display: inline-block; background: #169b62; color: #fff; border: none;
+    border-radius: 6px; padding: 4px 10px; font-size: 10px; font-weight: 700;
+    margin: 6px 0 8px; }
+  .sb-stage { position: relative; height: 214px; }
+  .sb-scene { position: absolute; inset: 0; opacity: 0; transition: opacity 0.35s;
+    pointer-events: none; }
+  .sb-scene.on { opacity: 1; }
+  .sb-btns { display: flex; gap: 6px; margin-bottom: 8px; }
+  .sb-play, .sb-back { border-radius: 6px; padding: 4px 10px; font-size: 10px;
+    font-weight: 700; flex: none; }
+  .sb-play { background: #1c2833; color: #fff; }
+  .sb-back { background: #f2f6f4; color: #1c2833; border: 1px solid #d8ded9; }
+  .sb-tune { background: #fff; border-left: 3px solid #e0e6e2; border-radius: 5px;
+    padding: 7px 9px; margin-bottom: 6px; font-size: 10px; color: #1c2833;
+    display: flex; justify-content: space-between; align-items: baseline;
+    transition: background 0.3s, border-color 0.3s, color 0.3s; }
+  .sb-tune.lit { background: #e7f4ec; border-left-color: #169b62; color: #0d7a4a;
+    font-weight: 700; }
+  .sb-read { flex: none; background: #1c2833; color: #fff; border-radius: 6px;
+    padding: 2px 8px; font-size: 9px; font-weight: 700; }
+
+  /* ---------- Chiffres de confiance ---------- */
+  .trust { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    padding: 4rem 1.6rem; text-align: center; }
+  .trust h2 { font-size: clamp(1.5rem, 3.4vw, 2.2rem); font-weight: 800; margin-bottom: 2.4rem; }
+  .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2.4rem; max-width: 62rem; margin: 0 auto; }
+  .trust-num { font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 800;
+    color: var(--green-lit); letter-spacing: -0.02em; }
+  .trust-lab { color: var(--ink-dim); font-size: 0.9rem; margin-top: 0.3rem; }
+
+  /* ---------- FAQ ---------- */
+  .faq { max-width: 46rem; margin: 0 auto; padding: 4.5rem 1.6rem; }
+  .faq h2 { font-size: clamp(1.5rem, 3.4vw, 2.2rem); font-weight: 800;
+    margin-bottom: 2rem; text-align: center; }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq summary { cursor: pointer; padding: 1.1rem 0.2rem; font-weight: 600;
+    list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; color: var(--ink-dim); font-size: 1.3rem; flex: none; }
+  .faq details[open] summary::after { content: "–"; }
+  .faq details p { color: var(--ink-dim); font-size: 0.92rem; padding: 0 0.2rem 1.2rem; }
+
+  /* ---------- Appel final et pied de page ---------- */
+  .final { text-align: center; padding: 5.5rem 1.6rem; max-width: 46rem; margin: 0 auto; }
+  .final h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800;
+    letter-spacing: -0.01em; margin-bottom: 1rem; }
+  .final p { color: var(--ink-dim); margin-bottom: 2rem; }
+  footer { border-top: 1px solid var(--line); padding: 2rem 1.6rem 2.6rem;
+    text-align: center; font-size: 0.8rem; color: #6b756f; }
+  footer a { color: var(--ink-dim); text-decoration: none; }
+  footer a:hover { color: var(--ink); }
+  footer .lic { margin-top: 0.6rem; font-size: 0.72rem; color: #565f5a; }
+
+  @media (max-width: 780px) {
+    .feat { grid-template-columns: 1fr; gap: 2.4rem; }
+    .feat:nth-child(even) { direction: ltr; }
+    .hero-visual { order: 2; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="logo">Irish Tunes <span>Tutor</span></div>
+  <div class="nav-right">
+    <div class="langbar">
+      <select id="langSel" aria-label="Langue / Language / Sprache">
+        <option value="fr">Français</option>
+        <option value="en">English</option>
+        <option value="de">Deutsch</option>
+        <option value="it">Italiano</option>
+        <option value="es">Español</option>
+        <option value="nl">Nederlands</option>
+        <option value="no">Norsk (bokmål)</option>
+        <option value="fi">Suomi</option>
+        <option value="el">Ελληνικά</option>
+        <option value="at">Deutsch (AT)</option>
+        <option value="hu">Magyar</option>
+      </select>
+    </div>
+    <a class="cta-btn" href="#telecharger" data-i18n="openApp">Ouvrir l'application</a>
+  </div>
+</div>
+
+<header class="hero">
+  <h1 data-i18n="hook">Tunes irlandais — Et si votre instrument avait <em>un outil d'apprentissage</em> ?</h1>
+  <p data-i18n="hookSub">Irish Tunes Tutor met des milliers d'airs traditionnels irlandais dans votre poche, avec partitions, lecture audio et apprentissage pas à pas. Une seule page, aucune installation, aucune dépendance.</p>
+  <div class="hero-note-row">
+    <p class="hero-note" data-i18n="hookNote">Gratuite et autonome — fonctionne hors ligne après le premier chargement.</p>
+  </div>
+</header>
+
+<div class="hero-visual">
+  <div class="phone" id="v0">
+    <div class="notch"></div>
+    <div class="screen">
+      <div class="scr-head"><span>Irish Tunes Tutor</span><span class="offl" data-i18n="offl">Hors ligne</span></div>
+      <div class="scr-search">
+        <div class="srch-field" data-i18n="searchPh">Rechercher un tune…</div>
+        <span class="srch-btn" data-i18n="searchBtn">Rechercher</span>
+        <span class="idb"><span data-i18n="idBtn">Identifier un tune</span><span class="beta">BETA</span></span>
+      </div>
+      <div class="atabs">
+        <span class="atab" data-i18n="tabL">Apprentissage</span>
+        <span class="atab" data-i18n="tabR">Révision</span>
+        <span class="atab on" data-i18n="tabD">Découvrir</span>
+        <span class="atab" data-i18n="tabB">Tunebook</span>
+      </div>
+      <div class="scr-stage">
+        <div class="scene on" id="v0-a">
+          <div class="mini-card">Cooleys<span class="mc-sub">reel</span></div>
+          <div class="mini-card" id="v0tap">The Kesh Jig<span class="mc-sub">jig</span></div>
+          <div class="mini-card">Morrison's Jig<span class="mc-sub">jig</span></div>
+          <div class="mini-card">The Bantry Slip<span class="mc-sub">jig</span></div>
+          <div class="mini-card">Drowsy Maggie<span class="mc-sub">reel</span></div>
+        </div>
+        <div class="scene" id="v0-b">
+          <div class="tt">The Kesh Jig<span class="tt-sub" data-i18n="v0sub">jig - Bibliothèque intégrée (The Celtic Room)</span></div>
+          <div class="score" id="scScore"></div>
+          <div class="scr-btns"><span class="pb" id="v0play">▶ <span data-i18n="playTune">Lire le tune</span></span><span class="lg" data-i18n="learn">Apprendre</span></div>
+          <div class="tempo"><span data-i18n="tempo">Tempo</span><div class="tslider"><div class="tknob"></div></div><span>100 BPM</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="fonctions">
+
+  <div class="feat">
+    <div class="ftext">
+      <h2 data-i18n="f1Title">Apprenez mesure par mesure.</h2>
+      <div class="pt"><span class="tick">✓</span><div><b data-i18n="f1aT">Pas à pas</b><p data-i18n="f1aP">Chaque ligne est découpée en demi-mesures, jouées en boucle jusqu'à l'aisance.</p></div></div>
+      <div class="pt"><span class="tick">✓</span><div><b data-i18n="f1bT">Surlignage en direct</b><p data-i18n="f1bP">La partition s'illumine pendant la lecture : vous suivez les notes à l'oreille et à l'œil.</p></div></div>
+      <div class="pt"><span class="tick">✓</span><div><b data-i18n="f1cT">Reprises respectées</b><p data-i18n="f1cP">Les signes |: :| et les alternatives |1 |2 sont rejoués exactement comme sur papier.</p></div></div>
+      <p class="feat-note" data-i18n="f1Note">Le tempo est réglable pendant la lecture, du grain par grain au tempo de session.</p>
+    </div>
+    <div class="fvisual"><div class="fcard">
+      <div class="appcard">
+        <div class="v1lines" data-i18n="lines">Lignes : 1 - 4</div>
+        <div class="score" id="v1score" style="box-shadow:none;padding:2px 0"></div>
+        <div class="scr-btns"><span class="lg" data-i18n="startLearn">Apprentissage pas-à-pas</span><span class="pb">▶ <span data-i18n="playFull">Lire le tune entier</span></span></div>
+        <div class="tempo"><span data-i18n="tempo">Tempo</span><div class="tslider"><div class="tknob" style="left:8%"></div></div><span>40 BPM</span></div>
+      </div>
+      <p class="fcap" id="v1cap"></p>
+    </div></div>
+  </div>
+
+  <div class="feat">
+    <div class="ftext">
+      <h2><span data-i18n="f2Title">Votre instrument devient la recherche.</span><span class="beta-tag">BETA</span></h2>
+      <div class="pt"><span class="tick">✓</span><div><b data-i18n="f2aT">Jouez, il trouve</b><p data-i18n="f2aP">Humez ou jouez un air : le tutor reconnaît la mélodie et retrouve le tune correspondant.</p></div></div>
+      <div class="pt"><span class="tick">✓</span><div><b data-i18n="f2bT">Import thesession.org</b><p data-i18n="f2bP">Des milliers de tunes supplémentaires en un clic, depuis l'export complet de la référence irlandaise.</p></div></div>
+      <div class="pt"><span class="tick">✓</span><div><b data-i18n="f2cT">Recherche instantanée</b><p data-i18n="f2cP">La bibliothèque répond dès les premières lettres.</p></div></div>
+      <p class="feat-note" data-i18n="f2Note">L'analyse du microphone s'effectue localement, depuis votre application.</p>
+    </div>
+    <div class="fvisual"><div class="fcard">
+      <div class="v2bar"><span class="idb" id="v2btn"><span data-i18n="idBtn">Identifier un tune</span><span class="beta">BETA</span></span></div>
+      <div class="wave" id="v2wave"></div>
+      <div class="match-card" id="v2match">
+        <div class="m-what" data-i18n="v2found">Morrison's Jig</div>
+        <div class="m-sub" data-i18n="v2sub">jig - Bibliothèque intégrée (The Celtic Room)</div>
+        <div class="m-conf">92 %</div>
+      </div>
+      <p class="fcap" id="v2cap"></p>
+    </div></div>
+  </div>
+
+  <div class="feat">
+    <div class="ftext">
+      <h2 data-i18n="f3Title">Une session dans la poche.</h2>
+      <div class="pt"><span class="tick">✓</span><div><b data-i18n="f3aT">Setbook et enchaînements</b><p data-i18n="f3aP">Constituez vos sets dans le setbook : « Lire le set » enchaîne les tunes sans interruption.</p></div></div>
+      <div class="pt"><span class="tick">✓</span><div><b data-i18n="f3bT">Révisions espacées</b><p data-i18n="f3bP">Cochez « Appris » : le tune revient à point nommé pour ancrer la mémoire.</p></div></div>
+      <div class="pt"><span class="tick">✓</span><div><b data-i18n="f3cT">Badges et paliers</b><p data-i18n="f3cP">Chaque étape de progression est récompensée.</p></div></div>
+      <p class="feat-note" data-i18n="f3Note">Toute la progression est conservée dans votre navigateur, sans compte à créer.</p>
+    </div>
+    <div class="fvisual"><div class="fcard">
+      <!-- Visuel reproduit de l'application : la liste du setbook
+           (course de tunes séparées par « / »), puis la vue du set
+           avec « Lire le set » et l'enchaînement des tunes. -->
+      <div class="appcard">
+        <div class="sb-stage">
+          <div class="sb-scene on" id="v3-list">
+            <div class="sb-head"><span class="tt" data-i18n="sbTitle">Setbook « Mon setbook »</span><span class="sb-count" id="v3count" data-i18n="sbCount">3 set(s)</span></div>
+            <button class="sb-add" data-i18n="sbAdd">Ajouter un set</button>
+            <div class="sb-line" id="v3l1">Johnny Mickey's / Sergeant Cahill / Mick Duggan's</div>
+            <div class="sb-line">Cooley's / The Wise Maid / The Cup Of Tea</div>
+            <div class="sb-line">The Silver Spear / The Glass Of Beer</div>
+          </div>
+          <div class="sb-scene" id="v3-view">
+            <div class="sb-btns"><span class="sb-play" id="v3play">▶ <span data-i18n="sbPlay">Lire le set</span></span><span class="sb-back" data-i18n="sbBack">‹ Setbook</span><span class="sb-back" data-i18n="sbEdit">Modifier</span></div>
+            <div class="sb-tune" id="v3t1"><span>1. Johnny Mickey's — slide</span><span class="sb-read" data-i18n="sbRead">Lire</span></div>
+            <div class="sb-tune" id="v3t2"><span>2. Sergeant Cahill — slide</span><span class="sb-read" data-i18n="sbRead">Lire</span></div>
+            <div class="sb-tune" id="v3t3"><span>3. Mick Duggan's — slide</span><span class="sb-read" data-i18n="sbRead">Lire</span></div>
+          </div>
+        </div>
+      </div>
+      <p class="fcap" id="v3cap"></p>
+    </div></div>
+  </div>
+
+</section>
+
+<!-- Emplacements réservés aux enregistrements réels de l'application.
+     Procédure : capturer l'écran de l'application (15 à 20 s, 640-720 px
+     de large, sans son), exporter en MP4 silencieux < 2 Mo (GIF possible
+     mais 5 à 10 fois plus lourd), déposer dans assets/, puis décommenter
+     une balise dans la section correspondante :
+<section class="feat">
+  <div class="ftext"> …texte de la section… </div>
+  <div class="fvisual">
+    <video class="fcard" src="assets/pas-a-pas.mp4" autoplay muted loop playsinline></video>
+  </div>
+</section>
+-->
+
+<section class="trust">
+  <h2 data-i18n="trustTitle">Autonome et fonctionnement hors ligne.</h2>
+  <div class="trust-grid">
+    <div><div class="trust-num">0</div><div class="trust-lab" data-i18n="trustB">dépendance, publicité ou compte</div></div>
+    <div><div class="trust-num">11</div><div class="trust-lab" data-i18n="trustC">langues disponibles</div></div>
+    <div><div class="trust-num">100 %</div><div class="trust-lab" data-i18n="trustD">hors ligne, une fois chargé</div></div>
+  </div>
+</section>
+
+<section class="faq">
+  <h2 data-i18n="faqTitle">Pour information.</h2>
+  <details><summary data-i18n="q1">L'application est-elle vraiment gratuite ?</summary>
+    <p data-i18n="a1">Oui, entièrement. Irish Tunes Tutor est un fichier HTML autonome : aucune installation, aucun compte, aucune donnée collectée. Les dons sont facultatifs et n'ouvrent aucun avantage.</p></details>
+  <details><summary data-i18n="q2">Faut-il savoir lire la musique ?</summary>
+    <p data-i18n="a2">Non. La lecture pas à pas et le surlignage des notes permettent d'apprendre à l'oreille ; les partitions servent de repère et l'ABC reste disponible pour les lecteurs confirmés.</p></details>
+  <details><summary data-i18n="q3">Quels instruments sont simulés ?</summary>
+    <p data-i18n="a3">Le synthétiseur intégré propose des timbres de violon, tin whistle, piano et guitare, générés par Web Audio directement dans le navigateur.</p></details>
+</section>
+
+<section class="final" id="telecharger">
+  <h2 data-i18n="finalTitle">Prêt à jouer votre première jig ?</h2>
+  <p data-i18n="finalSub">Bibliothèque, lecteur, mode pas à pas, révisions, sets — tout est déjà accordé.</p>
+  <a class="cta-btn" href="#" id="dlBtn" data-i18n="finalBtn">Ouvrir Irish Tunes Tutor</a>
+</section>
+
+<footer>
+  <span data-i18n="footerLib">Bibliothèque musicale d'après les collections de</span>
+  <a href="https://thecelticroom.org/abc-tune-library.html" target="_blank" rel="noopener">The Celtic Room</a>
+  <span> · </span>
+  <a href="https://thesession.org" target="_blank" rel="noopener">thesession.org</a>
+  <div class="lic">© 2026 0urx — Irish Tunes Tutor · PolyForm Noncommercial 1.0.0</div>
+</footer>
+
+<script>
+/* ============================================================
+ * Irish Tunes Tutor — site de présentation
+ * Onze langues ; animations intégrées autonomes.
+ * ============================================================ */
+
+/* ---------- Internationalisation ---------- */
+var I18N = {
+  fr: {
+    openApp: 'Ouvrir l\u2019application',
+    offl: 'Hors ligne', searchPh: 'Rechercher un tune…', searchBtn: 'Rechercher',
+    idBtn: 'Identifier un tune', tabL: 'Apprentissage', tabR: 'Révision',
+    tabD: 'Découvrir', tabB: 'Tunebook',
+    v0sub: 'jig - Bibliothèque intégrée (The Celtic Room)',
+    playTune: 'Lire le tune', learn: 'Apprendre', tempo: 'Tempo',
+    lines: 'Lignes : 1 - 4', playFull: 'Lire le tune entier',
+    startLearn: 'Apprentissage pas-à-pas', sbTitle: 'Setbook « Mon setbook »',
+    sbCount: '3 set(s)', sbAdd: 'Ajouter un set', sbPlay: 'Lire le set', sbBack: '‹ Setbook',
+    sbEdit: 'Modifier', sbRead: 'Lire',
+    seeFeatures: '',
+    hook: 'Tunes irlandais — Et si votre instrument avait \u003cem\u003Eun outil d\u2019apprentissage\u003C/em\u003E ?',
+    hookSub: 'Irish Tunes Tutor met des milliers d\u2019airs traditionnels irlandais dans votre poche, avec partitions, lecture audio et apprentissage pas à pas. Une seule page, aucune installation, aucune dépendance.',
+    hookNote: 'Gratuite et autonome — fonctionne hors ligne après le premier chargement.',
+    f1Title: 'Apprenez mesure par mesure.',
+    f1aT: 'Pas à pas', f1aP: 'Chaque ligne est découpée en demi-mesures, jouées en boucle jusqu\u2019à l\u2019aisance.',
+    f1bT: 'Surlignage en direct', f1bP: 'La partition s\u2019illumine pendant la lecture : vous suivez les notes à l\u2019oreille et à l\u2019œil.',
+    f1cT: 'Reprises respectées', f1cP: 'Les signes |: :| et les alternatives |1 |2 sont rejoués exactement comme sur papier.',
+    f1Note: 'Le tempo est réglable pendant la lecture, du grain par grain au tempo de session.',
+    f2Title: 'Votre instrument devient la recherche.',
+    f2aT: 'Jouez, il trouve', f2aP: 'Humez ou jouez un air : le tutor reconnaît la mélodie et retrouve le tune correspondant.',
+    f2bT: 'Import thesession.org', f2bP: 'Des milliers de tunes supplémentaires en un clic, depuis l\u2019export complet de la référence irlandaise.',
+    f2cT: 'Recherche instantanée', f2cP: 'La bibliothèque répond dès les premières lettres.',
+    f2Note: 'L\u2019analyse du microphone s\u2019effectue localement, depuis votre application.',
+    f3Title: 'Une session dans la poche.',
+    f3aT: 'Setbook et enchaînements', f3aP: 'Constituez vos sets dans le setbook : \u00ab\u00a0Lire le set\u00a0\u00bb enchaîne les tunes sans interruption.',
+    f3bT: 'Révisions espacées', f3bP: 'Cochez « Appris » : le tune revient à point nommé pour ancrer la mémoire.',
+    f3cT: 'Badges et paliers', f3cP: 'Chaque étape de progression est récompensée.',
+    f3Note: 'Toute la progression est conservée dans votre navigateur, sans compte à créer.',
+    v1a: ['Demi-mesure en boucle…', 'Deuxième ligne en boucle…', 'Validée — ligne assemblée…'],
+    v2found: 'Morrison\u2019s Jig',
+    v2sub: 'jig - Bibliothèque intégrée (The Celtic Room)',
+    v2a: ['À vous : jouez un air…', 'Analyse en cours…', 'Tune identifié !'],
+    v3a: ['Ouverture du set…', 'Enchaînement sans interruption…'],
+    trustTitle: 'Autonome et fonctionnement hors ligne.',
+    trustB: 'dépendance, publicité ou compte',
+    trustC: 'langues disponibles', trustD: 'hors ligne, une fois chargé',
+    faqTitle: 'Pour information.',
+    q1: 'L\u2019application est-elle vraiment gratuite ?',
+    a1: 'Oui, entièrement. Irish Tunes Tutor est un fichier HTML autonome : aucune installation, aucun compte, aucune donnée collectée. Les dons sont facultatifs et n\u2019ouvrent aucun avantage.',
+    q2: 'Faut-il savoir lire la musique ?',
+    a2: 'Non. La lecture pas à pas et le surlignage des notes permettent d\u2019apprendre à l\u2019oreille ; les partitions servent de repère et l\u2019ABC reste disponible pour les lecteurs confirmés.',
+    q3: 'Quels instruments sont simulés ?',
+    a3: 'Le synthétiseur intégré propose des timbres de violon, tin whistle, piano et guitare, générés par Web Audio directement dans le navigateur.',
+    finalTitle: 'Prêt à jouer votre première jig ?',
+    finalSub: 'Bibliothèque, lecteur, mode pas à pas, révisions, sets — tout est déjà accordé.',
+    finalBtn: 'Ouvrir Irish Tunes Tutor',
+    footerLib: 'Bibliothèque musicale d\u2019après les collections de'
+  },
+  en: {
+    openApp: 'Open the app',
+    offl: 'Offline', searchPh: 'Search a tune…', searchBtn: 'Search',
+    idBtn: 'Identify a tune', tabL: 'Learning', tabR: 'Revisions',
+    tabD: 'Discover', tabB: 'Tunebook',
+    v0sub: 'jig - Built-in library (The Celtic Room)',
+    playTune: 'Play the tune', learn: 'Learn', tempo: 'Tempo',
+    lines: 'Lines: 1 - 4', playFull: 'Play the whole tune',
+    startLearn: 'Step-by-step learning', sbTitle: 'Setbook \u201cMy setbook\u201d',
+    sbCount: '3 set(s)', sbAdd: 'Add a set', sbPlay: 'Play the set', sbBack: '‹ Setbook',
+    sbEdit: 'Edit', sbRead: 'Play',
+    seeFeatures: '',
+    hook: 'Irish tunes — What if your instrument had \u003cem\u003Ea learning tool\u003C/em\u003E ?',
+    hookSub: 'Irish Tunes Tutor puts thousands of traditional Irish tunes in your pocket, with scores, audio playback and step-by-step learning. One single page, no installation, no dependencies.',
+    hookNote: 'Free and self-contained — works offline once loaded.',
+    f1Title: 'Learn bar by bar.',
+    f1aT: 'Step by step', f1aP: 'Each line is split into half-bars, looped until they feel natural.',
+    f1bT: 'Live highlighting', f1bP: 'The score lights up during playback: you follow the notes by ear and by eye.',
+    f1cT: 'Repeats honoured', f1cP: '|: :| signs and |1 |2 endings are replayed exactly as written.',
+    f1Note: 'Tempo is adjustable during playback, from grain by grain to full session speed.',
+    f2Title: 'Your instrument becomes the search.',
+    f2aT: 'Play, it finds', f2aP: 'Hum or play a tune: the tutor recognises the melody and finds the matching tune.',
+    f2bT: 'thesession.org import', f2bP: 'Thousands of extra tunes in one click, from the full export of the Irish reference.',
+    f2cT: 'Instant search', f2cP: 'The library answers from the first letters.',
+    f2Note: 'Microphone analysis runs locally, from within the app.',
+    f3Title: 'A session in your pocket.',
+    f3aT: 'Setbook and medleys', f3aP: 'Build your sets in the setbook: \u201cPlay the set\u201d chains the tunes without interruption.',
+    f3bT: 'Spaced revisions', f3bP: 'Check « Learned »: the tune returns at the right moment to anchor memory.',
+    f3cT: 'Badges and milestones', f3cP: 'Every step of progress is rewarded.',
+    f3Note: 'All progress is kept in your browser, with no account to create.',
+    v1a: ['Half-bar looping…', 'Second line looping…', 'Validated — line assembled…'],
+    v2found: 'Morrison\u2019s Jig',
+    v2sub: 'jig - Built-in library (The Celtic Room)',
+    v2a: ['Your turn: play a tune…', 'Analysing…', 'Tune identified!'],
+    v3a: ['Opening the set…', 'Chained without interruption…'],
+    trustTitle: 'Self-contained and working offline.',
+    trustB: 'dependency, ad or account',
+    trustC: 'languages available', trustD: 'offline, once loaded',
+    faqTitle: 'For your information.',
+    q1: 'Is the app really free?',
+    a1: 'Yes, entirely. Irish Tunes Tutor is a self-contained HTML file: no installation, no account, no data collected. Donations are optional and unlock no advantage.',
+    q2: 'Do I need to read music?',
+    a2: 'No. Step-by-step playback and note highlighting let you learn by ear; scores serve as a guide and ABC notation remains available for confident readers.',
+    q3: 'Which instruments are simulated?',
+    a3: 'The built-in synthesizer offers violin, tin whistle, piano and guitar timbres, generated by Web Audio directly in the browser.',
+    finalTitle: 'Ready to play your first jig?',
+    finalSub: 'Library, player, step-by-step mode, revisions, sets — everything is already in tune.',
+    finalBtn: 'Open Irish Tunes Tutor',
+    footerLib: 'Music library based on the collections of'
+  },
+  de: {
+    openApp: 'App öffnen',
+    offl: 'Offline', searchPh: 'Tune suchen…', searchBtn: 'Suchen',
+    idBtn: 'Tune erkennen', tabL: 'Lernen', tabR: 'Wiederholen',
+    tabD: 'Entdecken', tabB: 'Tunebook',
+    v0sub: 'jig - Integrierte Bibliothek (The Celtic Room)',
+    playTune: 'Tune abspielen', learn: 'Lernen', tempo: 'Tempo',
+    lines: 'Zeilen: 1 - 4', playFull: 'Ganzen Tune abspielen',
+    startLearn: 'Schrittweises Lernen', sbTitle: 'Setbook \u201eMein Setbook\u201c',
+    sbCount: '3 Set(s)', sbAdd: 'Set hinzufügen', sbPlay: 'Set abspielen', sbBack: '‹ Setbook',
+    sbEdit: 'Bearbeiten', sbRead: 'Abspielen',
+    seeFeatures: '',
+    hook: 'Irische Tunes — Was wäre, wenn Ihr Instrument \u003cem\u003Eein Lernwerkzeug\u003C/em\u003E hätte?',
+    hookSub: 'Irish Tunes Tutor legt tausende traditionelle irische Melodien in Ihre Tasche — mit Noten, Audiowiedergabe und Schritt-für-Schritt-Lernen. Eine einzige Seite, keine Installation, keine Abhängigkeiten.',
+    hookNote: 'Kostenlos und eigenständig — funktioniert offline nach dem ersten Laden.',
+    f1Title: 'Lernen Sie Takt für Takt.',
+    f1aT: 'Schritt für Schritt', f1aP: 'Jede Zeile wird in halbe Takte zerlegt und in Schleife gespielt, bis sie sitzen.',
+    f1bT: 'Live-Hervorhebung', f1bP: 'Die Partitur leuchtet bei der Wiedergabe auf: Sie folgen den Noten mit Ohr und Auge.',
+    f1cT: 'Wiederholungen beachtet', f1cP: '|: :|-Zeichen und |1 |2-Endungen werden genau wie notiert gespielt.',
+    f1Note: 'Das Tempo ist während der Wiedergabe einstellbar — von Korn für Korn bis zum Session-Tempo.',
+    f2Title: 'Ihr Instrument wird die Suche.',
+    f2aT: 'Spielen Sie, es findet', f2aP: 'Summen oder spielen Sie eine Melodie: Der Tutor erkennt sie und findet das passende Stück.',
+    f2bT: 'thesession.org-Import', f2bP: 'Tausende zusätzliche Melodien mit einem Klick — aus dem kompletten Export der irischen Referenz.',
+    f2cT: 'Sofortige Suche', f2cP: 'Die Bibliothek antwortet ab den ersten Buchstaben.',
+    f2Note: 'Die Mikrofonanalyse läuft lokal in der App.',
+    f3Title: 'Eine Session in der Tasche.',
+    f3aT: 'Setbook und Medleys', f3aP: 'Stellen Sie Ihre Sets im Setbook zusammen: \u201eSet abspielen\u201c verkettet die Melodien ohne Unterbrechung.',
+    f3bT: 'Verteilte Wiederholungen', f3bP: 'Kreuzen Sie „Gelernt“ an: Die Melodie kehrt im richtigen Moment zurück.',
+    f3cT: 'Abzeichen und Meilensteine', f3cP: 'Jeder Fortschritt wird belohnt.',
+    f3Note: 'Der gesamte Fortschritt bleibt in Ihrem Browser — ohne Konto.',
+    v1a: ['Halbtakt in Schleife…', 'Zweite Zeile in Schleife…', 'Bestätigt — Zeile zusammengesetzt…'],
+    v2found: 'Morrison\u2019s Jig',
+    v2sub: 'jig - Integrierte Bibliothek (The Celtic Room)',
+    v2a: 'Ihre Frage: Spielen Sie eine Melodie…', // corrigé plus bas
+    v3a: ['Set wird geöffnet…', 'Ohne Unterbrechung verkettet…'],
+    trustTitle: 'Autonom und offline funktionsfähig.',
+    trustB: 'Abhängigkeit, Werbung oder Konto',
+    trustC: 'verfügbare Sprachen', trustD: 'offline, einmal geladen',
+    faqTitle: 'Zur Information.',
+    q1: 'Ist die App wirklich kostenlos?',
+    a1: 'Ja, vollständig. Irish Tunes Tutor ist eine eigenständige HTML-Datei: keine Installation, kein Konto, keine Datensammlung. Spenden sind freiwillig und bringen keine Vorteile.',
+    q2: 'Muss ich Noten lesen können?',
+    a2: 'Nein. Die Schritt-für-Schritt-Wiedergabe und das Aufleuchten der Noten ermöglichen das Lernen nach Gehör; die Noten dienen als Orientierung.',
+    q3: 'Welche Instrumente werden simuliert?',
+    a3: 'Der integrierte Synthesizer bietet Violine-, Tin-Whistle-, Klavier- und Gitarrenklänge, direkt im Browser per Web Audio erzeugt.',
+    finalTitle: 'Bereit für Ihre erste Jig?',
+    finalSub: 'Bibliothek, Player, Schritt-für-Schritt-Modus, Wiederholungen, Sets — alles ist bereits gestimmt.',
+    finalBtn: 'Irish Tunes Tutor öffnen',
+    footerLib: 'Musikbibliothek nach den Sammlungen von'
+  },
+  it: {
+    openApp: "Apri l'applicazione",
+    offl: "Offline",
+    searchPh: "Cerca una melodia…",
+    searchBtn: "Cerca",
+    idBtn: "Identifica una melodia",
+    tabL: "Apprendimento",
+    tabR: "Ripasso",
+    tabD: "Scopri",
+    tabB: "Tunebook",
+    v0sub: "jig - Libreria integrata (The Celtic Room)",
+    playTune: "Suona la melodia",
+    learn: "Impara",
+    tempo: "Tempo",
+    lines: "Righe: 1 - 4",
+    playFull: "Suona la melodia intera",
+    startLearn: "Apprendimento passo per passo",
+    sbTitle: "Setbook « Il mio setbook »",
+    sbCount: "3 set",
+    sbAdd: "Aggiungi un set",
+    sbPlay: "Suona il set",
+    sbBack: "‹ Setbook",
+    sbEdit: "Modifica",
+    sbRead: "Suona",
+    seeFeatures: "",
+    hook: "Tune irlandesi — E se il tuo strumento avesse <em>uno strumento per imparare</em>?",
+    hookSub: "Irish Tunes Tutor mette migliaia di melodie tradizionali irlandesi in tasca, con partiture, riproduzione audio e apprendimento passo per passo. Una sola pagina, nessuna installazione, nessuna dipendenza.",
+    hookNote: "Gratuita e autonoma — funziona offline dopo il primo caricamento.",
+    f1Title: "Impara battuta per battuta.",
+    f1aT: "Passo per passo",
+    f1aP: "Ogni riga è divisa in mezze battute, ripetute in loop finché non diventano naturali.",
+    f1bT: "Evidenziazione dal vivo",
+    f1bP: "La partitura si illumina durante la riproduzione: segui le note a orecchio e a vista.",
+    f1cT: "Ripetizioni rispettate",
+    f1cP: "I segni |: :| e le alternative |1 |2 vengono suonati esattamente come scritti.",
+    f1Note: "Il tempo è regolabile durante la riproduzione, passo dopo passo fino al tempo della sessione.",
+    f2Title: "Il tuo strumento diventa la ricerca.",
+    f2aT: "Suona, e trova",
+    f2aP: "Canta o suona una melodia: il tutor riconosce il tema e trova la melodia corrispondente.",
+    f2bT: "Import da thesession.org",
+    f2bP: "Migliaia di melodie in più con un clic, dall'export completo del riferimento irlandese.",
+    f2cT: "Ricerca istantanea",
+    f2cP: "La libreria risponde dalle prime lettere.",
+    f2Note: "L'analisi del microfono avviene localmente, dentro l'applicazione.",
+    f3Title: "Una sessione in tasca.",
+    f3aT: "Setbook e medley",
+    f3aP: "Componi i tuoi set nel setbook: « Suona il set » concatena le melodie senza interruzioni.",
+    f3bT: "Ripasso distribuito",
+    f3bP: "Spunta « Imparata »: la melodia torna al momento giusto per fissare la memoria.",
+    f3cT: "Badge e traguardi",
+    f3cP: "Ogni passo avanti viene premiato.",
+    f3Note: "Tutti i progressi restano nel tuo browser, senza alcun account da creare.",
+    v1a: ["Mezza battuta in loop…","Seconda riga in loop…","Convalidata — riga assemblata…"],
+    v2found: "Morrison’s Jig",
+    v2sub: "jig - Libreria integrata (The Celtic Room)",
+    v2a: ["Tocca a te: suona una melodia…","Analisi in corso…","Melodia identificata!"],
+    v3a: ["Apertura del set…","Concatenazione senza interruzioni…"],
+    trustTitle: "Autonoma e funzionante offline.",
+    trustB: "dipendenza, pubblicità o account",
+    trustC: "lingue disponibili",
+    trustD: "offline, dopo il caricamento",
+    faqTitle: "Per informazioni.",
+    q1: "L'applicazione è davvero gratuita?",
+    a1: "Sì, interamente. Irish Tunes Tutor è un file HTML autonomo: nessuna installazione, nessun account, nessun dato raccolto. Le donazioni sono facoltative e non aprono alcun vantaggio.",
+    q2: "Bisogna saper leggere la musica?",
+    a2: "No. La riproduzione passo per passo e l'evidenziazione delle note permettono di imparare a orecchio; le partiture servono da guida e la notazione ABC resta disponibile per i lettori esperti.",
+    q3: "Quali strumenti sono simulati?",
+    a3: "Il sintetizzatore integrato offre timbri di violino, tin whistle, pianoforte e chitarra, generati con Web Audio direttamente nel browser.",
+    finalTitle: "Pronto a suonare la tua prima jig?",
+    finalSub: "Libreria, lettore, modalità passo per passo, ripasso, set — tutto è già accordato.",
+    finalBtn: "Apri Irish Tunes Tutor",
+    footerLib: "Libreria musicale basata sulle collezioni di",
+  },
+  es: {
+    openApp: "Abrir la aplicación",
+    offl: "Sin conexión",
+    searchPh: "Buscar una melodía…",
+    searchBtn: "Buscar",
+    idBtn: "Identificar una melodía",
+    tabL: "Aprendizaje",
+    tabR: "Repaso",
+    tabD: "Descubrir",
+    tabB: "Tunebook",
+    v0sub: "jig - Biblioteca integrada (The Celtic Room)",
+    playTune: "Tocar la melodía",
+    learn: "Aprender",
+    tempo: "Tempo",
+    lines: "Líneas: 1 - 4",
+    playFull: "Tocar la melodía completa",
+    startLearn: "Aprendizaje paso a paso",
+    sbTitle: "Setbook « Mi setbook »",
+    sbCount: "3 set(s)",
+    sbAdd: "Añadir un set",
+    sbPlay: "Tocar el set",
+    sbBack: "‹ Setbook",
+    sbEdit: "Editar",
+    sbRead: "Tocar",
+    seeFeatures: "",
+    hook: "Melodías irlandesas — ¿Y si tu instrumento tuviera <em>una herramienta de aprendizaje</em>?",
+    hookSub: "Irish Tunes Tutor pone miles de melodías tradicionales irlandesas en tu bolsillo, con partituras, reproducción de audio y aprendizaje paso a paso. Una sola página, sin instalación, sin dependencias.",
+    hookNote: "Gratuita y autónoma — funciona sin conexión tras la primera carga.",
+    f1Title: "Aprende compás a compás.",
+    f1aT: "Paso a paso",
+    f1aP: "Cada línea se divide en medios compases, repetidos en bucle hasta que salen solos.",
+    f1bT: "Resaltado en directo",
+    f1bP: "La partitura se ilumina durante la reproducción: sigues las notas de oído y de vista.",
+    f1cT: "Repeticiones respetadas",
+    f1cP: "Los signos |: :| y las alternativas |1 |2 se tocan exactamente como están escritos.",
+    f1Note: "El tempo se ajusta durante la reproducción, grano a grano hasta el tempo de sesión.",
+    f2Title: "Tu instrumento se convierte en la búsqueda.",
+    f2aT: "Toca, y encuentra",
+    f2aP: "Tararea o toca una melodía: el tutor reconoce el tema y encuentra la melodía correspondiente.",
+    f2bT: "Import de thesession.org",
+    f2bP: "Miles de melodías más con un clic, desde la exportación completa de la referencia irlandesa.",
+    f2cT: "Búsqueda instantánea",
+    f2cP: "La biblioteca responde desde las primeras letras.",
+    f2Note: "El análisis del micrófono se realiza localmente, dentro de la aplicación.",
+    f3Title: "Una sesión en el bolsillo.",
+    f3aT: "Setbook y encadenados",
+    f3aP: "Compón tus sets en el setbook: « Tocar el set » encadena las melodías sin interrupciones.",
+    f3bT: "Repasos espaciados",
+    f3bP: "Marca « Aprendida »: la melodía vuelve en el momento justo para afianzar la memoria.",
+    f3cT: "Insignias e hitos",
+    f3cP: "Cada paso de progreso recibe su recompensa.",
+    f3Note: "Todo el progreso se guarda en tu navegador, sin cuenta que crear.",
+    v1a: ["Medio compás en bucle…","Segunda línea en bucle…","Validada — línea montada…"],
+    v2found: "Morrison’s Jig",
+    v2sub: "jig - Biblioteca integrada (The Celtic Room)",
+    v2a: ["Tu turno: toca una melodía…","Analizando…","¡Melodía identificada!"],
+    v3a: ["Abriendo el set…","Encadenadas sin interrupciones…"],
+    trustTitle: "Autónoma y funciona sin conexión.",
+    trustB: "dependencia, publicidad o cuenta",
+    trustC: "idiomas disponibles",
+    trustD: "sin conexión, tras la carga",
+    faqTitle: "Para tu información.",
+    q1: "¿La aplicación es realmente gratuita?",
+    a1: "Sí, enteramente. Irish Tunes Tutor es un archivo HTML autónomo: sin instalación, sin cuenta, sin datos recogidos. Las donaciones son facultativas y no desbloquean ninguna ventaja.",
+    q2: "¿Hay que saber leer música?",
+    a2: "No. La reproducción paso a paso y el resaltado de las notas permiten aprender de oído; las partituras sirven de referencia y la notación ABC sigue disponible para lectores experimentados.",
+    q3: "¿Qué instrumentos se simulan?",
+    a3: "El sintetizador integrado ofrece timbres de violín, tin whistle, piano y guitarra, generados con Web Audio directamente en el navegador.",
+    finalTitle: "¿Listo para tocar tu primera jig?",
+    finalSub: "Biblioteca, reproductor, modo paso a paso, repasos, sets — todo ya está afinado.",
+    finalBtn: "Abrir Irish Tunes Tutor",
+    footerLib: "Biblioteca musical a partir de las colecciones de",
+  },
+  nl: {
+    openApp: "Applicatie openen",
+    offl: "Offline",
+    searchPh: "Een melodie zoeken…",
+    searchBtn: "Zoeken",
+    idBtn: "Een melodie herkennen",
+    tabL: "Leren",
+    tabR: "Herhalen",
+    tabD: "Ontdekken",
+    tabB: "Tunebook",
+    v0sub: "jig - Ingebouwde bibliotheek (The Celtic Room)",
+    playTune: "Melodie afspelen",
+    learn: "Leren",
+    tempo: "Tempo",
+    lines: "Regels: 1 - 4",
+    playFull: "Hele melodie afspelen",
+    startLearn: "Stap-voor-stap leren",
+    sbTitle: "Setbook « Mijn setbook »",
+    sbCount: "3 set(s)",
+    sbAdd: "Een set toevoegen",
+    sbPlay: "Set afspelen",
+    sbBack: "‹ Setbook",
+    sbEdit: "Bewerken",
+    sbRead: "Afspelen",
+    seeFeatures: "",
+    hook: "Ierse melodietjes — Wat als je instrument <em>een leergereedschap</em> had?",
+    hookSub: "Irish Tunes Tutor stopt duizenden traditionele Ierse melodieën in je broekzak, met partituren, audioweergave en stap-voor-stap leren. Eén enkele pagina, geen installatie, geen afhankelijkheden.",
+    hookNote: "Gratis en zelfstandig — werkt offline na de eerste keer laden.",
+    f1Title: "Leer maat voor maat.",
+    f1aT: "Stap voor stap",
+    f1aP: "Elke regel wordt in halve maten verdeeld, in een lus gespeeld tot ze vanzelf gaan.",
+    f1bT: "Live-markering",
+    f1bP: "De partituur licht op tijdens het afspelen: je volgt de noten op het gehoor en gezicht.",
+    f1cT: "Herhalingstekens geëerd",
+    f1cP: "|: :|-tekens en |1 |2-einden worden precies gespeeld zoals genoteerd.",
+    f1Note: "Het tempo is tijdens het afspelen instelbaar, van korrel voor korrel tot sessietempo.",
+    f2Title: "Je instrument wordt de zoekopdracht.",
+    f2aT: "Speel, en hij vindt",
+    f2aP: "Zoem of speel een melodie: de tutor herkent het thema en vindt de bijbehorende melodie.",
+    f2bT: "thesession.org-import",
+    f2bP: "Duizenden extra melodieën met één klik, uit de volledige export van de Ierse referentie.",
+    f2cT: "Direct zoeken",
+    f2cP: "De bibliotheek antwoordt vanaf de eerste letters.",
+    f2Note: "De microfoanalyse draait lokaal, binnen de applicatie.",
+    f3Title: "Een sessie in je broekzak.",
+    f3aT: "Setbook en medleys",
+    f3aP: "Stel je sets samen in het setbook: « Set afspelen » ketent de melodieën zonder onderbreking aan elkaar.",
+    f3bT: "Gespreide herhalingen",
+    f3bP: "Vink « Geleerd » aan: de melodie komt op het juiste moment terug om het geheugen te verankeren.",
+    f3cT: "Badges en mijlpalen",
+    f3cP: "Elke stap vooruit wordt beloond.",
+    f3Note: "Alle voortgang blijft in je browser, zonder account aan te maken.",
+    v1a: ["Halve maat in de lus…","Tweede regel in de lus…","Bevestigd — regel samengesteld…"],
+    v2found: "Morrison’s Jig",
+    v2sub: "jig - Ingebouwde bibliotheek (The Celtic Room)",
+    v2a: ["Jij bent aan de beurt: speel een melodie…","Analyseren…","Melodie herkend!"],
+    v3a: ["Set wordt geopend…","Aaneengeregen zonder onderbreking…"],
+    trustTitle: "Zelfstandig en offline werkend.",
+    trustB: "afhankelijkheid, reclame of account",
+    trustC: "beschikbare talen",
+    trustD: "offline, na het laden",
+    faqTitle: "Ter informatie.",
+    q1: "Is de applicatie echt gratis?",
+    a1: "Ja, volledig. Irish Tunes Tutor is een zelfstandig HTML-bestand: geen installatie, geen account, geen verzamelde gegevens. Donaties zijn vrijwillig en geven geen voordeel.",
+    q2: "Moet ik noten kunnen lezen?",
+    a2: "Nee. Stap-voor-stap weergave en het oplichten van de noten laten je op het gehoor leren; partituren dienen als houvast en ABC-notatie blijft beschikbaar voor gevorderde lezers.",
+    q3: "Welke instrumenten worden gesimuleerd?",
+    a3: "De ingebouwde synthesizer biedt viool-, tin whistle-, piano- en gitarenklanken, direct in de browser met Web Audio gegenereerd.",
+    finalTitle: "Klaar om je eerste jig te spelen?",
+    finalSub: "Bibliotheek, speler, stap-voor-stapmodus, herhalingen, sets — alles staat al gestemd.",
+    finalBtn: "Irish Tunes Tutor openen",
+    footerLib: "Muziekbibliotheek naar de collecties van",
+  },
+  no: {
+    openApp: "Åpne appen",
+    offl: "Frakoblet",
+    searchPh: "Søk etter en melodi…",
+    searchBtn: "Søk",
+    idBtn: "Identifiser en melodi",
+    tabL: "Læring",
+    tabR: "Repetisjon",
+    tabD: "Utforsk",
+    tabB: "Tunebook",
+    v0sub: "jig - Innebygd bibliotek (The Celtic Room)",
+    playTune: "Spill melodien",
+    learn: "Lær",
+    tempo: "Tempo",
+    lines: "Linjer: 1 - 4",
+    playFull: "Spill hele melodien",
+    startLearn: "Læring steg for steg",
+    sbTitle: "Setbook « Setbooken min »",
+    sbCount: "3 sett",
+    sbAdd: "Legg til et sett",
+    sbPlay: "Spill settet",
+    sbBack: "‹ Setbook",
+    sbEdit: "Rediger",
+    sbRead: "Spill",
+    seeFeatures: "",
+    hook: "Irsk musikk — Hva om instrumentet ditt hadde <em>et læringsverktøy</em>?",
+    hookSub: "Irish Tunes Tutor legger tusenvis av tradisjonelle irske melodier i lomma di, med noter, lydavspilling og læring steg for steg. Én enkelt side, ingen installasjon, ingen avhengigheter.",
+    hookNote: "Gratis og selvstendig — virker frakoblet etter første lasting.",
+    f1Title: "Lær takt for takt.",
+    f1aT: "Steg for steg",
+    f1aP: "Hver linje deles i halvtakter, spilt i løkke til de sitter.",
+    f1bT: "Live-markering",
+    f1bP: "Notene lyser opp under avspillingen: du følger toneene med øret og øyet.",
+    f1cT: "Gjentakelser respektert",
+    f1cP: "|: :|-tegn og |1 |2-slutt spilles nøyaktig slik de står.",
+    f1Note: "Tempoet justeres under avspillingen, fra korn for korn til session-tempo.",
+    f2Title: "Instrumentet ditt blir søket.",
+    f2aT: "Spill, så finner den",
+    f2aP: "Nynn eller spill en melodi: tutoren gjenkjenner temaet og finner melodien.",
+    f2bT: "thesession.org-import",
+    f2bP: "Tusenvis av ekstra melodier med ett klikk, fra den fullstendige eksporten til den irske referansen.",
+    f2cT: "Øyeblikkelig søk",
+    f2cP: "Biblioteket svarer fra de første bokstavene.",
+    f2Note: "Mikrofonanalysen kjører lokalt, inne i appen.",
+    f3Title: "En session i lomma.",
+    f3aT: "Setbook og medleys",
+    f3aP: "Bygg settene dine i setbooken: « Spill settet » kjeder melodiene sammen uten avbrudd.",
+    f3bT: "Spredt repetisjon",
+    f3bP: "Kryss av « Lært »: melodien kommer tilbake på riktig tidspunkt for å forankre hukommelsen.",
+    f3cT: "Merker og nivåer",
+    f3cP: "Hvert fremgangssteg belønnes.",
+    f3Note: "All fremgang lagres i nettleseren din, uten konto å opprette.",
+    v1a: ["Halvtakt i løkke…","Andre linje i løkke…","Bekreftet — linjen satt sammen…"],
+    v2found: "Morrison’s Jig",
+    v2sub: "jig - Innebygd bibliotek (The Celtic Room)",
+    v2a: ["Din tur: spill en melodi…","Analyserer…","Melodi gjenkjent!"],
+    v3a: ["Åpner settet…","Kjedes sammen uten avbrudd…"],
+    trustTitle: "Selvstendig og virker frakoblet.",
+    trustB: "avhengighet, reklame eller konto",
+    trustC: "tilgjengelige språk",
+    trustD: "frakoblet, etter lasting",
+    faqTitle: "Til orientering.",
+    q1: "Er appen virkelig gratis?",
+    a1: "Ja, fullt ut. Irish Tunes Tutor er en selvstendig HTML-fil: ingen installasjon, ingen konto, ingen data samlet inn. Donasjoner er frivillige og gir ingen fordel.",
+    q2: "Må jeg kunne lese noter?",
+    a2: "Nei. Avspilling steg for steg og markering av notene lar deg lære etter gehør; notene tjener som pekepinne, og ABC-notasjon er fortsatt tilgjengelig for erfarne lesere.",
+    q3: "Hvilke instrumenter simuleres?",
+    a3: "Den innebygde synthesizeren tilbyr fiolin-, tin whistle-, piano- og gitarklang, generert med Web Audio direkte i nettleseren.",
+    finalTitle: "Klar til å spille din første jig?",
+    finalSub: "Bibliotek, avspiller, steg-for-steg-modus, repetisjon, sett — alt er allerede stemt.",
+    finalBtn: "Åpne Irish Tunes Tutor",
+    footerLib: "Musikkbibliotek etter samlingene til",
+  },
+  fi: {
+    openApp: "Avaa sovellus",
+    offl: "Ei verkossa",
+    searchPh: "Hae melodiaa…",
+    searchBtn: "Hae",
+    idBtn: "Tunnista melodia",
+    tabL: "Oppiminen",
+    tabR: "Kertaus",
+    tabD: "Löydä",
+    tabB: "Tunebook",
+    v0sub: "jig - Sisäänrakennettu kirjasto (The Celtic Room)",
+    playTune: "Soita melodia",
+    learn: "Opi",
+    tempo: "Tempo",
+    lines: "Rivit: 1 - 4",
+    playFull: "Soita koko melodia",
+    startLearn: "Oppiminen askel askeleelta",
+    sbTitle: "Setbook « Setbookini »",
+    sbCount: "3 settiä",
+    sbAdd: "Lisää setti",
+    sbPlay: "Soita setti",
+    sbBack: "‹ Setbook",
+    sbEdit: "Muokkaa",
+    sbRead: "Soita",
+    seeFeatures: "",
+    hook: "Irlantilaiset melodiat — Entä jos soittimellasi olisi <em>oppimistyökalu</em>?",
+    hookSub: "Irish Tunes Tutor panee tuhansia perinteisiä irlantilaisia melodioita taskuusi, nuotteineen, äänentoistoineen ja askel askeleelta -opetuksineen. Yksi ainoa sivu, ei asennusta, ei riippuvuuksia.",
+    hookNote: "Ilmainen ja itsenäinen — toimii verkotta ensimmäisen latauksen jälkeen.",
+    f1Title: "Opi tahti tahdilta.",
+    f1aT: "Askel askeleelta",
+    f1aP: "Jokainen rivi pilkotaan puolinauhoiksi ja silmukoidaan, kunnes ne luistavat.",
+    f1bT: "Reaaliaikainen korostus",
+    f1bP: "Nuotit valaistuvat toiston aikana: seuraat säveliä korvalla ja silmällä.",
+    f1cT: "Toistomerkit kunnioitetaan",
+    f1cP: "|: :|-merkit ja |1 |2-vaihtoehdot toistetaan täsmälleen nuottien mukaan.",
+    f1Note: "Tempoa voi säätää toiston aikana, rakeista rakeiseen aina session-tempoon asti.",
+    f2Title: "Soittimestasi tulee haku.",
+    f2aT: "Soita, se löytää",
+    f2aP: "Hyräile tai soita melodia: tunnistaa aiheen ja löytää vastaavan melodian.",
+    f2bT: "thesession.org-tuonti",
+    f2bP: "Tuhansia melodioita lisää yhdellä napsautuksella, irlantilaisen referenssin täydellisestä viennistä.",
+    f2cT: "Välitön haku",
+    f2cP: "Kirjasto vastaa ensimmäisistä kirjaimista alkaen.",
+    f2Note: "Mikrofonianalyysi toimii paikallisesti sovelluksen sisällä.",
+    f3Title: "Session taskussasi.",
+    f3aT: "Setbook ja medleyt",
+    f3aP: "Kokoa setit setbookissa: « Soita setti » ketjuttaa melodiat keskeytyksettä.",
+    f3bT: "Ajoitettu kertaus",
+    f3bP: "Merkitse « Opittu »: melodia palaa oikealla hetkellä ankkuroimaan muistin.",
+    f3cT: "Ansiomerkit ja tasot",
+    f3cP: "Jokainen edistymisen askel palkitaan.",
+    f3Note: "Koko edistyminen säilyy selaimessasi, ilman tilin luomista.",
+    v1a: ["Puolinauha silmukassa…","Toinen rivi silmukassa…","Hyväksytty — rivi koottu…"],
+    v2found: "Morrison’s Jig",
+    v2sub: "jig - Sisäänrakennettu kirjasto (The Celtic Room)",
+    v2a: ["Vuorosi: soita melodia…","Analysoidaan…","Melodia tunnistettu!"],
+    v3a: ["Avataan settiä…","Ketjutetaan keskeytyksettä…"],
+    trustTitle: "Itsenäinen ja toimii verkotta.",
+    trustB: "riippuvuutta, mainontaa tai tiliä",
+    trustC: "käytettävissä olevaa kieltä",
+    trustD: "verkotta, latauksen jälkeen",
+    faqTitle: "Tiedoksi.",
+    q1: "Onko sovellus todella ilmainen?",
+    a1: "Kyllä, täysin. Irish Tunes Tutor on itsenäinen HTML-tiedosto: ei asennusta, ei tiliä, ei kerättyjä tietoja. Lahjoitukset ovat vapaaehtoisia eivätkä avaa mitään etua.",
+    q2: "Pitääkö osata lukea nuotteja?",
+    a2: "Ei. Askel askeleelta -toisto ja nuottien korostaminen mahdollistavat oppimisen korvakuulolta; nuotit toimivat apuna ja ABC-nuotinnus pysyy käytettävissä kokeneille lukijoille.",
+    q3: "Mitä soittimia simuloidaan?",
+    a3: "Sisäänrakennettu syntetisaattori tarjoaa viulun, tin whistlen, pianon ja kitaran äänensävyt, Web Audiolla suoraan selaimessa tuotettuina.",
+    finalTitle: "Valmis soittamaan ensimmäinen jiggsi?",
+    finalSub: "Kirjasto, soitin, askel askeleelta -tila, kertaus, setit — kaikki on jo viritetty.",
+    finalBtn: "Avaa Irish Tunes Tutor",
+    footerLib: "Musiikkikirjasto pohjautuu seuraavien kokoelmiin:",
+  },
+  el: {
+    openApp: "Άνοιγμα εφαρμογής",
+    offl: "Εκτός σύνδεσης",
+    searchPh: "Αναζήτηση μελωδίας…",
+    searchBtn: "Αναζήτηση",
+    idBtn: "Αναγνώριση μελωδίας",
+    tabL: "Μάθηση",
+    tabR: "Επανάληψη",
+    tabD: "Ανακαλύψτε",
+    tabB: "Tunebook",
+    v0sub: "jig - Ενσωματωμένη βιβλιοθήκη (The Celtic Room)",
+    playTune: "Αναπαραγωγή μελωδίας",
+    learn: "Μάθηση",
+    tempo: "Τέμπο",
+    lines: "Γραμμές: 1 - 4",
+    playFull: "Αναπαραγωγή ολόκληρης μελωδίας",
+    startLearn: "Μάθηση βήμα προς βήμα",
+    sbTitle: "Setbook « Το setbook μου »",
+    sbCount: "3 σετ",
+    sbAdd: "Προσθήκη σετ",
+    sbPlay: "Αναπαραγωγή σετ",
+    sbBack: "‹ Setbook",
+    sbEdit: "Επεξεργασία",
+    sbRead: "Αναπαραγωγή",
+    seeFeatures: "",
+    hook: "Ιρλανδικές μελωδίες — Κι αν το όργανό σας είχε <em>εργαλείο μάθησης</em>;",
+    hookSub: "Το Irish Tunes Tutor βάζει χιλιάδες παραδοσιακές ιρλανδικές μελωδίες στην τσέπη σας, με παρτιτούρες, αναπαραγωγή ήχου και μάθηση βήμα προς βήμα. Μία μόνο σελίδα, χωρίς εγκατάσταση, χωρίς εξαρτήσεις.",
+    hookNote: "Δωρεάν και αυτόνομη — λειτουργεί εκτός σύνδεσης μετά την πρώτη φόρτωση.",
+    f1Title: "Μάθετε μέτρο προς μέτρο.",
+    f1aT: "Βήμα προς βήμα",
+    f1aP: "Κάθε γραμμή διαιρείται σε μισά μέτρα, που επαναλαμβάνονται σε βρόχο ώσπου να γίνουν φυσικά.",
+    f1bT: "Ζωντανή επισήμανση",
+    f1bP: "Η παρτιτούρα φωτίζεται κατά την αναπαραγωγή: ακολουθείτε τις νότες με το αυτί και το μάτι.",
+    f1cT: "Τήρηση επαναλήψεων",
+    f1cP: "Τα σύμβολα |: :| και οι εναλλακτικές |1 |2 παίζονται ακριβώς όπως είναι γραμμένα.",
+    f1Note: "Το τέμπο ρυθμίζεται κατά την αναπαραγωγή, από κόκκο σε κόκκο ώσπου το τέμπο της συνεδρίας.",
+    f2Title: "Το όργανό σας γίνεται η αναζήτηση.",
+    f2aT: "Παίξτε, θα το βρει",
+    f2aP: "Σφυρίξτε ή παίξτε μια μελωδία: ο βοηθός αναγνωρίζει το θέμα και βρίσκει την αντίστοιχη μελωδία.",
+    f2bT: "Εισαγωγή από thesession.org",
+    f2bP: "Χιλιάδες επιπλέον μελωδίες με ένα κλικ, από την πλήρη εξαγωγή της ιρλανδικής αναφοράς.",
+    f2cT: "Άμεση αναζήτηση",
+    f2cP: "Η βιβλιοθήκη απαντά από τα πρώτα γράμματα.",
+    f2Note: "Η ανάλυση του μικροφώνου γίνεται τοπικά, μέσα στην εφαρμογή.",
+    f3Title: "Μια συνεδρία στην τσέπη.",
+    f3aT: "Setbook και συνδυασμοί",
+    f3aP: "Στήστε τα σετ σας στο setbook: το « Αναπαραγωγή σετ » αλυσίδεύει τις μελωδίες χωρίς διακοπές.",
+    f3bT: "Κατανομημένες επαναλήψεις",
+    f3bP: "Σημειώστε « Μαθημένη »: η μελωδία επιστρέφει την κατάλληλη στιγμή για να αγκυρώσει τη μνήμη.",
+    f3cT: "Κοσμήματα και επίπεδα",
+    f3cP: "Κάθε βήμα προόδου επιβραβεύεται.",
+    f3Note: "Όλη η πρόοδος διατηρείται στο πρόγραμμα περιήγησής σας, χωρίς λογαριασμό.",
+    v1a: ["Μισό μέτρο σε βρόχο…","Δεύτερη γραμμή σε βρόχο…","Επιβεβαιώθηκε — γραμμή συναρμολογήθηκε…"],
+    v2found: "Morrison’s Jig",
+    v2sub: "jig - Ενσωματωμένη βιβλιοθήκη (The Celtic Room)",
+    v2a: ["Σειρά σας: παίξτε μια μελωδία…","Ανάλυση σε εξέλιξη…","Η μελωδία αναγνωρίστηκε!"],
+    v3a: ["Άνοιγμα σετ…","Αλυσίδεμα χωρίς διακοπές…"],
+    trustTitle: "Αυτόνομη και λειτουργεί εκτός σύνδεσης.",
+    trustB: "εξάρτηση, διαφήμιση ή λογαριασμό",
+    trustC: "διαθέσιμες γλώσσες",
+    trustD: "εκτός σύνδεσης, μετά τη φόρτωση",
+    faqTitle: "Για πληροφόρηση.",
+    q1: "Είναι πραγματικά δωρεάν η εφαρμογή;",
+    a1: "Ναι, εξ ολοκλήρου. Το Irish Tunes Tutor είναι ένα αυτόνομο αρχείο HTML: καμία εγκατάσταση, κανένας λογαριασμός, κανένα συλλεγόμενο δεδομένο. Οι δωρεές είναι προαιρετικές και δεν ξεκλειδώνουν κανένα πλεονέκτημα.",
+    q2: "Πρέπει να ξέρω να διαβάζω μουσική;",
+    a2: "Όχι. Η αναπαραγωγή βήμα προς βήμα και η επισήμανση των νοτών επιτρέπουν τη μάθηση με το αυτί· οι παρτιτούρες χρησιμεύουν ως οδηγός και η σημειογραφία ABC παραμένει διαθέσιμη για έμπειρους αναγνώστες.",
+    q3: "Ποια όργανα προσομοιώνονται;",
+    a3: "Ο ενσωματωμένος συνθέτης προσφέρει ηχοχρώματα βιολιού, tin whistle, πιάνου και κιθάρας, παραγόμενα με Web Audio απευθείας στο πρόγραμμα περιήγησης.",
+    finalTitle: "Έτοιμοι να παίξετε το πρώτο σας jig;",
+    finalSub: "Βιβλιοθήκη, αναπαραγωγέας, λειτουργία βήμα προς βήμα, επαναλήψεις, σετ — όλα είναι ήδη κουρδισμένα.",
+    finalBtn: "Άνοιγμα Irish Tunes Tutor",
+    footerLib: "Μουσική βιβλιοθήκη με βάση τις συλλογές του",
+  },
+  hu: {
+    openApp: "Alkalmazás megnyitása",
+    offl: "Offline",
+    searchPh: "Melódia keresése…",
+    searchBtn: "Keresés",
+    idBtn: "Melódia azonosítása",
+    tabL: "Tanulás",
+    tabR: "Ismétlés",
+    tabD: "Felfedezés",
+    tabB: "Tunebook",
+    v0sub: "jig - Beépített könyvtár (The Celtic Room)",
+    playTune: "Melódia lejátszása",
+    learn: "Tanulás",
+    tempo: "Tempo",
+    lines: "Sorok: 1 - 4",
+    playFull: "A teljes melódia lejátszása",
+    startLearn: "Lépésről lépésre tanulás",
+    sbTitle: "Setbook « Saját setbook »",
+    sbCount: "3 set",
+    sbAdd: "Set hozzáadása",
+    sbPlay: "A set lejátszása",
+    sbBack: "‹ Setbook",
+    sbEdit: "Szerkesztés",
+    sbRead: "Lejátszás",
+    seeFeatures: "",
+    hook: "Ír melódiák — Mi lenne, ha a hangszere lenne <em>egy tanulási eszköz</em>?",
+    hookSub: "Az Irish Tunes Tutor zsebre tesz több ezer hagyományos ír melódiát, kottával, hanglejátszással és lépésről lépésre tanulással. Egyetlen oldal, telepítés nélkül, függőségek nélkül.",
+    hookNote: "Ingyenes és önálló — az első betöltés után offline is működik.",
+    f1Title: "Tanuljon ütemenként.",
+    f1aT: "Lépésről lépésre",
+    f1aP: "Minden sor félütemekre van osztva, és hurokban szól, amíg magabiztos nem lesz.",
+    f1bT: "Élő kiemelés",
+    f1bP: "A kotta felragyog a lejátszás alatt: füllel és szemmel követheti a hangokat.",
+    f1cT: "Ismétlőjelek tisztelete",
+    f1cP: "A |: :| jelek és az |1 |2 változatok pontosan úgy szólnak, ahogy írva vannak.",
+    f1Note: "A tempo a lejátszás közben állítható, szemcsről szemcsre a session tempójáig.",
+    f2Title: "A hangszere válik a kereséssé.",
+    f2aT: "Játsszon, és megtalálja",
+    f2aP: "Dúdorásszon vagy játsszon egy melódiát: a tutor felismeri a témát, és megtalálja a megfelelő melódiát.",
+    f2bT: "thesession.org import",
+    f2bP: "További több ezer melódia egy kattintással, az ír referencia teljes exportjából.",
+    f2cT: "Azonnali keresés",
+    f2cP: "A könyvtár már az első betűktől válaszol.",
+    f2Note: "A mikrofon elemzése helyben, az alkalmazásban zajlik.",
+    f3Title: "Egy session a zsebében.",
+    f3aT: "Setbook és láncolt játékok",
+    f3aP: "Állítsa össze setjeit a setbookban: a « Set lejátszása » megszakítás nélkül láncolja a melódiákat.",
+    f3bT: "Időzített ismétlés",
+    f3bP: "Jelölje be: « Megtanult » — a melódia a megfelelő pillanatban visszatér, hogy rögzítse az emlékezetet.",
+    f3cT: "Jelvények és szintek",
+    f3cP: "Minden haladási lépés jutalmat kap.",
+    f3Note: "Az összes haladás a böngészőjében marad, fiók létrehozása nélkül.",
+    v1a: ["Félütem hurokban…","Második sor hurokban…","Jóváhagyva — sor összeállítva…"],
+    v2found: "Morrison’s Jig",
+    v2sub: "jig - Beépített könyvtár (The Celtic Room)",
+    v2a: ["Öné a sor: játsszon egy melódiát…","Elemzés folyamatban…","Melódia azonosítva!"],
+    v3a: ["Set megnyitása…","Megszakítás nélküli láncolás…"],
+    trustTitle: "Önálló és offline működik.",
+    trustB: "függőség, hirdetés vagy fiók",
+    trustC: "elérhető nyelv",
+    trustD: "offline, a betöltés után",
+    faqTitle: "Tájékoztatásul.",
+    q1: "Tényleg ingyenes az alkalmazás?",
+    a1: "Igen, teljesen. Az Irish Tunes Tutor egy önálló HTML-fájl: nincs telepítés, nincs fiók, nem gyűjt adatokat. Az adományok önkéntesek, és semmilyen előnyt nem nyitnak.",
+    q2: "Tudni kell kottát olvasni?",
+    a2: "Nem. A lépésről lépésre történő lejátszás és a hangok kiemelése hallás alapján tanít; a kották tájékoztatóul szolgálnak, és az ABC jelölés a gyakorlott olvasók számára is megmarad.",
+    q3: "Milyen hangszerek kerülnek szimulálásra?",
+    a3: "A beépített szintetizátor hegedű-, tin whistle-, zongora- és gitárhangszínt kínál, amelyeket a Web Audio állít elő közvetlenül a böngészőben.",
+    finalTitle: "Készen áll az első jigjére?",
+    finalSub: "Könyvtár, lejátszó, lépésről lépésre mód, ismétlés, setek — minden már behangolva.",
+    finalBtn: "Az Irish Tunes Tutor megnyitása",
+    footerLib: "Zenei könyvtár az alábbi gyűjtemények alapján:",
+  },
+};
+I18N.de.v2a = ['Sie sind dran: Spielen Sie eine Melodie…', 'Analyse läuft…', 'Melodie erkannt!'];
+/* Österreichisches Deutsch (at) : variante de l'allemand (vouvoiement). */
+I18N.at = Object.assign({}, I18N.de, {"openApp":"App öffnen","hook":"Irische Tunes — Was wäre, wenn Ihr Instrument <em>ein Lernwerkzeug</em> hätte?","hookSub":"Irish Tunes Tutor legt tausende traditionelle irische Melodien in Ihre Tasche — mit Noten, Audiowiedergabe und Schritt-für-Schritt-Lernen. Eine einzige Seite, keine Installation, keine Abhängigkeiten.","f1aT":"Schritt für Schritt","f1aP":"Jede Zeile wird in halbe Takte zerlegt und in Schleife gespielt, bis sie sitzt.","f1Note":"Das Tempo ist während der Wiedergabe einstellbar — von Korn für Korn bis zum Session-Tempo.","f2Note":"Die Mikrofonanalyse läuft lokal in der App.","f3Note":"Der gesamte Fortschritt bleibt in Ihrem Browser — ohne Konto.","trustTitle":"Autonom und offline funktionsfähig.","trustC":"verfügbare Sprachen","a1":"Ja, vollständig. Irish Tunes Tutor ist eine eigenständige HTML-Datei: keine Installation, kein Konto, keine Datensammlung. Spenden sind freiwillig und bringen keine Vorteile.","a2":"Nein. Die Schritt-für-Schritt-Wiedergabe und das Aufleuchten der Noten ermöglichen das Lernen nach Gehör; die Noten dienen als Orientierung.","a3":"Der integrierte Synthesizer bietet Violine-, Tin-Whistle-, Klavier- und Gitarrenklänge, direkt im Browser per Web Audio erzeugt.","finalSub":"Bibliothek, Player, Schritt-für-Schritt-Modus, Wiederholungen, Sets — alles ist bereits gestimmt.","footerLib":"Musikbibliothek nach den Sammlungen von"});
+
+/* ---------- État de langue ---------- */
+var lang = 'fr';
+function detectLang() {
+  var c = [];
+  try { c = (navigator.languages || [navigator.language || '']).slice(); } catch (e) {}
+  for (var i = 0; i < c.length; i++) {
+    var l = String(c[i] || '').toLowerCase();
+    if (l.indexOf('fr') === 0) return 'fr';
+    if (l.indexOf('de-at') === 0) return 'at';
+    if (l.indexOf('de') === 0) return 'de';
+    if (l.indexOf('en') === 0) return 'en';
+    if (l.indexOf('it') === 0) return 'it';
+    if (l.indexOf('es') === 0) return 'es';
+    if (l.indexOf('nl') === 0) return 'nl';
+    if (l.indexOf('nb') === 0 || l.indexOf('nn') === 0 || l.indexOf('no') === 0) return 'no';
+    if (l.indexOf('fi') === 0) return 'fi';
+    if (l.indexOf('el') === 0) return 'el';
+    if (l.indexOf('hu') === 0) return 'hu';
+  }
+  return 'fr';
+}
+function applyLang(l) {
+  lang = (['fr', 'en', 'de', 'it', 'es', 'nl', 'no', 'fi', 'el', 'at', 'hu'].indexOf(l) >= 0) ? l : 'fr';
+  document.documentElement.setAttribute('lang', lang);
+  document.querySelectorAll('[data-i18n]').forEach(function (el) {
+    var k = el.getAttribute('data-i18n');
+    if (I18N[lang][k] !== undefined) el.innerHTML = I18N[lang][k];
+  });
+  var sel = document.getElementById('langSel');
+  if (sel) sel.value = lang;
+  refreshCaps();
+  try { localStorage.setItem('itt_site_lang', lang); } catch (e) {}
+}
+
+/* ---------- Moteur d'animation ----------
+ * Chaque visuel est une « vidéo » autonome : une timeline
+ * d'événements rejouée en boucle. Sans fichier externe. */
+function now() { return Date.now(); }
+var ANIMS = [];
+function makeAnim(total, events, reset) {
+  var a = { total: total, events: events, idx: 0, t0: now(), lastT: 0, reset: reset || null };
+  ANIMS.push(a);
+  return a;
+}
+function animTick(a) {
+  var t = (now() - a.t0) % a.total;
+  if (t < a.lastT) { /* retour au début de boucle : réinitialiser */ }
+  if (t < a.lastT) {
+    if (a.reset) a.reset();
+    a.idx = 0;
+  }
+  while (a.idx < a.events.length && t >= a.events[a.idx][0]) {
+    a.events[a.idx][1]();
+    a.idx++;
+  }
+  a.lastT = t;
+}
+setInterval(function () { ANIMS.forEach(animTick); }, 120);
+
+function el(id) { return document.getElementById(id); }
+function cls(id, c, on) { var e = el(id); if (e) e.classList.toggle(c, on); }
+function capText(a, n) {
+  if (!a || !a.key) return '';
+  var arr = I18N[lang][a.key] || [];
+  return arr[Math.min(n, arr.length - 1)] || '';
+}
+function setCap(id, a, n) { var e = el(id); if (e) e.textContent = capText(a, n); }
+function refreshCaps() {
+  ['v1cap', 'v2cap', 'v3cap'].forEach(function (id) {
+    var e = el(id); if (!e) return;
+    var a = CAPS[id];
+    e.textContent = capText(a, a ? (a.stage || 0) : 0);
+  });
+}
+var CAPS = {};
+
+/* --- Portée SVG reproduisant le rendu de l'application ---
+ * Grave le début réel de The Kesh Jig (Sol majeur, 6/8) tel
+ * qu'il figure dans la bibliothèque intégrée de l'application,
+ * avec les conventions du lecteur : clé 𝄞 en glyphe Unicode,
+ * ligne de base sur la ligne de sol et viewBox étendue vers le
+ * haut (comme dans l'application, sinon le glyphe est rogné) ;
+ * armure à un seul dièse, croches ligaturées par groupes de
+ * trois (jig), notes longues à hampe libre, points de
+ * prolongation ; et pendant la lecture, surbrillance orange
+ * note après note (tête + hampe), comme dans le tutor. */
+var KESH_BARS = [
+  [['G',2],['G',1],['G',1],['A',1],['B',1]],
+  [['A',2],['A',1],['A',1],['B',1],['d',1]],
+  [['e',1],['d',1],['d',1],['g',1],['d',1],['d',1]],
+  [['e',1],['d',1],['B',1],['d',1],['B',1],['A',1]],
+  [['G',2],['G',1],['G',1],['A',1],['B',1]],
+  [['A',2],['A',1],['A',1],['B',1],['d',1]],
+  [['e',1],['d',1],['d',1],['g',1],['d',1],['B',1]],
+  [['A',1],['G',1],['F',1],['G',3]],
+  [['B',2],['B',1],['d',1],['B',1],['d',1]],
+  [['e',1],['g',1],['e',1],['d',1],['B',1],['A',1]],
+  [['B',2],['B',1],['d',1],['B',1],['G',1]],
+  [['A',1],['B',1],['A',1],['A',3]],
+  [['B',2],['B',1],['d',1],['B',1],['d',1]],
+  [['e',1],['g',1],['e',1],['d',1],['B',1],['d',1]],
+  [['g',1],['f',1],['g',1],['a',1],['g',1],['a',1]],
+  [['b',1],['g',1],['g',1],['G',3]]
+];
+function kIdx(l) { return 'CDEFGAB'.indexOf(l.toUpperCase()) + (l >= 'a' ? 35 : 28); }
+function kY(l) { return 44 - (kIdx(l) - kIdx('E')) * 4; }
+function buildScore(hostId, prefix, barFrom, barTo, withLoop) {
+  var host = document.getElementById(hostId);
+  if (!host) return 0;
+  var W = 258, SP = 8, SB = 44, TOP = 12, LEFT = 10, STEM = 14;
+  var CLEF = '\uD834\uDD1E';
+  var contentX = 52, g = 0, html = '';
+  /* Quatre mesures par système, comme dans l'application ; une
+   * marge à droite (W - 16) évite tout rognage de fin de ligne. */
+  var barW = (W - 16 - contentX) / 4;
+  for (var bi = barFrom; bi < barTo; bi += 4) {
+    var inner = '', beams = '', heads = '';
+    for (var l = 0; l < 5; l++) {
+      var ly = SB - l * SP;
+      inner += '<line x1="' + LEFT + '" y1="' + ly + '" x2="' + (W - 4) + '" y2="' + ly +
+        '" stroke="#1c2833" stroke-width="0.8"/>';
+    }
+    inner += '<text x="' + (LEFT + 2) + '" y="' + (SB - SP) + '" font-size="' + (SP * 3.6) +
+      '" fill="#1c2833" font-family="Bravura, Segoe UI Symbol, Apple Symbols, serif">' + CLEF + '</text>';
+    /* Armure de Sol majeur : un seul dièse (fa# aigu, ligne du haut). */
+    inner += '<text x="27" y="12" font-size="' + (SP * 1.8) + '" fill="#1c2833" font-family="serif">\u266F</text>';
+    inner += '<text x="38" y="' + (TOP + 11) + '" font-size="9" fill="#1c2833" font-family="serif" font-weight="bold">6</text>';
+    inner += '<text x="38" y="' + (SB - 1) + '" font-size="9" fill="#1c2833" font-family="serif" font-weight="bold">8</text>';
+    for (var b = 0; b < 4 && bi + b < barTo; b++) {
+      var evs = [], cum = 0;
+      KESH_BARS[bi + b].forEach(function (nv) {
+        evs.push({ l: nv[0], e: nv[1], h: cum < 3 ? 0 : 1,
+          x: contentX + b * barW + ((cum + nv[1] / 2) / 6) * (barW - 8) + 4 });
+        cum += nv[1];
+      });
+      /* Ligature des croches par demi-mesure (groupes de trois). */
+      for (var h = 0; h < 2; h++) {
+        var grp = evs.filter(function (ev) { return ev.e === 1 && ev.h === h; });
+        var upAll, beamY;
+        if (grp.length >= 2) {
+          var sum = 0;
+          grp.forEach(function (ev) { sum += kIdx(ev.l); });
+          upAll = (sum / grp.length) <= kIdx('B');
+          var ys = grp.map(function (ev) { return kY(ev.l); });
+          beamY = upAll ? Math.min.apply(null, ys) - STEM : Math.max.apply(null, ys) + STEM;
+          grp.forEach(function (ev) { ev.up = upAll; ev.sy = beamY; });
+          var sx1 = grp[0].x + (upAll ? 2.6 : -2.6);
+          var sx2 = grp[grp.length - 1].x + (upAll ? 2.6 : -2.6);
+          beams += '<line x1="' + sx1 + '" y1="' + beamY + '" x2="' + sx2 + '" y2="' + beamY +
+            '" stroke="#1c2833" stroke-width="1.5"/>';
+        }
+      }
+      evs.forEach(function (ev) {
+        var y = kY(ev.l);
+        /* Lignes supplémentaires pour les notes hors portée,
+         * comme les traits de repère de l'application. */
+        if (y <= 4) {
+          for (var ly = 4; ly >= y; ly -= 8) {
+            heads += '<line x1="' + (ev.x - 5) + '" y1="' + ly + '" x2="' + (ev.x + 5) + '" y2="' + ly +
+              '" stroke="#1c2833" stroke-width="0.8"/>';
+          }
+        } else if (y >= 48) {
+          for (var ly2 = 48; ly2 <= y; ly2 += 8) {
+            heads += '<line x1="' + (ev.x - 5) + '" y1="' + ly2 + '" x2="' + (ev.x + 5) + '" y2="' + ly2 +
+              '" stroke="#1c2833" stroke-width="0.8"/>';
+          }
+        }
+        if (ev.sy === undefined) { ev.up = kIdx(ev.l) <= kIdx('B'); ev.sy = ev.up ? y - STEM : y + STEM; }
+        var sx = ev.x + (ev.up ? 2.6 : -2.6);
+        inner += '<line class="st" id="' + prefix + 's' + g + '" x1="' + sx + '" y1="' + y + '" x2="' + sx +
+          '" y2="' + ev.sy + '" stroke="#1c2833" stroke-width="0.8"/>';
+        heads += '<ellipse id="' + prefix + 'n' + g + '" cx="' + ev.x + '" cy="' + y + '" rx="2.8" ry="2" fill="#1c2833"' +
+          ' transform="rotate(-20 ' + ev.x + ' ' + y + ')"/>';
+        if (ev.e === 3) heads += '<circle cx="' + (ev.x + 4) + '" cy="' + (y - 4) + '" r="1" fill="#1c2833"/>';
+        g++;
+      });
+      var bx = contentX + (b + 1) * barW - 3;
+      if (b === 3) bx = W - 10; /* barre finale alignée sur la marge commune */
+      inner += '<line x1="' + bx + '" y1="' + TOP + '" x2="' + bx + '" y2="' + SB +
+        '" stroke="#1c2833" stroke-width="1.1"/>';
+    }
+    html += '<svg class="staff-line" viewBox="0 -14 ' + W + ' 78" preserveAspectRatio="xMidYMid meet" aria-hidden="true">' +
+      inner + beams + heads + '</svg>';
+  }
+  host.innerHTML = html;
+  return g;
+}
+var KESH_N = buildScore('scScore', 's', 0, 16, false);
+buildScore('v1score', 'v', 0, 2, true);
+
+
+/* --- Visuel 0 : accroche (bibliothèque → tune → lecture) --- */
+(function () {
+  function clearNotes() {
+    var heads = document.querySelectorAll('#scScore ellipse');
+    var stems = document.querySelectorAll('#scScore line.st');
+    if (heads.forEach) heads.forEach(function (h) { h.classList.remove('note-on'); });
+    if (stems.forEach) stems.forEach(function (h) { h.classList.remove('note-on'); });
+  }
+  function curNote(i) {
+    clearNotes();
+    var heads = document.querySelectorAll('#scScore ellipse');
+    var stems = document.querySelectorAll('#scScore line.st');
+    if (heads[i]) heads[i].classList.add('note-on');
+    if (stems[i]) stems[i].classList.add('note-on');
+  }
+  var reset = function () {
+    cls('v0tap', 'hot', false); cls('v0play', 'press', false);
+    clearNotes();
+  };
+  /* Lecture : les 48 notes s'illuminent l'une après l'autre,
+   * au rythme d'une croche de jig, comme dans l'application. */
+  var events = [
+    [0, function () { reset(); cls('v0-a', 'on', true); cls('v0-b', 'on', false); }],
+    [1600, function () { cls('v0tap', 'hot', true); }],
+    [3200, function () { cls('v0-a', 'on', false); cls('v0-b', 'on', true); }],
+    [3800, function () { cls('v0play', 'press', true); }]
+  ];
+  for (var i = 0; i < KESH_N; i++) {
+    events.push([4300 + i * 120, (function (n) {
+      return function () { curNote(n); };
+    })(i)]);
+  }
+  events.push([14400, function () { clearNotes(); cls('v0-a', 'on', true); cls('v0-b', 'on', false); }]);
+  makeAnim(15400, events, reset);
+})();
+
+
+/* --- Visuel 1 : pas à pas (note active surlignée en orange, une à
+ * une pendant la lecture, comme l'application) --- */
+(function () {
+  /* Notes du visuel 1 : têtes et hampes, surlignées une à une à la
+   * lecture — uniquement la note active passe en orange. */
+  var v1heads = document.querySelectorAll('#v1score ellipse');
+  var v1stems = document.querySelectorAll('#v1score line.st');
+  /* Ordre réel des notes des mesures 1-2 : 5 puis 5 (G2GAB, A2ABd). */
+  var ORDER = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  function clearV1() {
+    if (v1heads.forEach) v1heads.forEach(function (n) { n.classList.remove('note-on'); });
+    if (v1stems.forEach) v1stems.forEach(function (n) { n.classList.remove('note-on'); });
+  }
+  function noteOn(i) {
+    clearV1();
+    if (v1heads[ORDER[i]]) v1heads[ORDER[i]].classList.add('note-on');
+    if (v1stems[ORDER[i]]) v1stems[ORDER[i]].classList.add('note-on');
+  }
+  var reset = function () {
+    clearV1();
+    CAPS.v1cap.stage = 0;
+  };
+  /* Séquence : demi-mesure 1 en boucle (notes 0-4 surlignées une à
+   * une), puis demi-mesure 2 (notes 5-9), puis ligne validée. */
+  var ev = [[0, function () { reset(); CAPS.v1cap.stage = 0; refreshCaps(); }]];
+  var t = 300;
+  for (var k = 0; k < 10; k++) {
+    (function (kk, tt) {
+      ev.push([tt, function () { noteOn(kk); }]);
+      if (kk === 4) ev.push([tt + 700, function () { CAPS.v1cap.stage = 1; refreshCaps(); }]);
+    })(k, t);
+    t += 600; /* ~40 BPM : une croche ≈ 500 ms, à l'aise */
+  }
+  ev.push([t + 300, function () {
+    clearV1();
+    CAPS.v1cap.stage = 2; refreshCaps();
+  }]);
+  var a = makeAnim(t + 900, ev, reset);
+  a.key = 'v1a'; CAPS.v1cap = a;
+})();
+
+/* --- Visuel 2 : reconnaissance micro --- */
+(function () {
+  var wave = el('v2wave'), bars = [], i;
+  for (i = 0; i < 13; i++) {
+    var b = document.createElement('div');
+    b.className = 'bar'; b.style.height = '8px';
+    wave.appendChild(b); bars.push(b);
+  }
+  var phase = 0, active = false, heights = [];
+  for (i = 0; i < 13; i++) heights.push(10 + ((i * 37) % 52));
+  var reset = function () {
+    active = false; bars.forEach(function (b) { b.style.height = '8px'; });
+    cls('v2match', 'show', false); cls('v2btn', 'press', false); CAPS.v2cap.stage = 0;
+  };
+  var a = makeAnim(9000, [
+    [0, function () { reset(); CAPS.v2cap.stage = 0; refreshCaps(); }],
+    [300, function () { cls('v2btn', 'press', true); }],
+    [400, function () { active = true; CAPS.v2cap.stage = 1; refreshCaps(); }],
+    [5200, function () { active = false; cls('v2btn', 'press', false); }],
+    [5600, function () { cls('v2match', 'show', true); CAPS.v2cap.stage = 2; refreshCaps(); }]
+  ], reset);
+  a.key = 'v2a'; CAPS.v2cap = a;
+  setInterval(function () {
+    if (!active) return;
+    phase++;
+    bars.forEach(function (b, i) {
+      var h = heights[(i + phase) % 13];
+      b.style.height = h + 'px';
+    });
+  }, 160);
+})();
+
+/* --- Visuel 3 : setbook et enchaînement du set --- */
+(function () {
+  var reset = function () {
+    cls('v3l1', 'hot', false);
+    cls('v3-list', 'on', true); cls('v3-view', 'on', false);
+    ['v3t1', 'v3t2', 'v3t3'].forEach(function (id) { cls(id, 'lit', false); });
+    CAPS.v3cap.stage = 0;
+  };
+  var a = makeAnim(11000, [
+    [0, function () { reset(); CAPS.v3cap.stage = 0; refreshCaps(); }],
+    /* Parcours reproduit de l'application : la ligne du set est
+       pressée dans la liste du setbook, la vue du set s'ouvre,
+       « Lire le set » enchaîne les tunes sans interruption,
+       puis retour à la liste. */
+    [600, function () { cls('v3l1', 'hot', true); }],
+    [1400, function () { cls('v3l1', 'hot', false); cls('v3-list', 'on', false); cls('v3-view', 'on', true); }],
+    [2200, function () { cls('v3t1', 'lit', true); }],
+    [3900, function () { cls('v3t1', 'lit', false); cls('v3t2', 'lit', true); }],
+    [5600, function () { cls('v3t2', 'lit', false); cls('v3t3', 'lit', true); CAPS.v3cap.stage = 1; refreshCaps(); }],
+    [7100, function () { cls('v3t3', 'lit', false); }],
+    [10200, function () { cls('v3-list', 'on', true); cls('v3-view', 'on', false); }]
+  ], reset);
+  a.key = 'v3a'; CAPS.v3cap = a;
+})();
+
+/* ---------- Initialisation ---------- */
+document.getElementById('langSel').addEventListener('change', function () {
+  applyLang(this.value);
+});
+el('dlBtn').addEventListener('click', function (e) {
+  /* Lien volontairement neutre tant que l'URL de déploiement n'existe pas. */
+  e.preventDefault();
+});
+var saved = null;
+try { saved = localStorage.getItem('itt_site_lang'); } catch (e) {}
+applyLang(saved || detectLang());
+</script>
+</body>
+</html>
